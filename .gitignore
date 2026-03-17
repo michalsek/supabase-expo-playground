@@ -36,6 +36,11 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# test output
+coverage/
+
 # generated native folders
 /ios
 /android
+
+.yarn/install-state.gz

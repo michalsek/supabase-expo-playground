@@ -23,11 +23,12 @@ const previews = [
 export default function HomeScreen() {
   return (
     <Screen
+      edges={["top", "bottom", "left", "right"]}
       title="Router baseline"
       subtitle="Expo Router is mounted from src/App.tsx, while route files live under src/app and shared route helpers stay in src/navigation."
       footer={
         <Link asChild href={routes.todoNew}>
-          <Pressable style={[styles.action, styles.primaryAction]}>
+          <Pressable style={primaryActionStyle}>
             <Text style={styles.primaryActionLabel}>Add a todo</Text>
           </Pressable>
         </Link>
@@ -87,3 +88,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 });
+
+const primaryActionStyle = StyleSheet.flatten([
+  styles.action,
+  styles.primaryAction,
+]);
