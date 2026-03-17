@@ -1,17 +1,21 @@
 import { Stack, useFocusEffect, useRouter } from "expo-router";
 import { SymbolView } from "expo-symbols";
 import { useCallback, useMemo, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
 import { useAuth } from "../../auth/AuthProvider";
 import { ErrorView } from "../../components/ErrorView";
 import { LoadingView } from "../../components/LoadingView";
 import { TodoList, type TodoListItemData } from "../../components/TodoList";
+import { useRealTimeSubscription } from "../../hooks";
 import { navigationTheme } from "../../navigation/root-stack";
 import { routes } from "../../navigation/routes";
 import { supabase } from "../../supabase/client";
 import { Row } from "../../ui/Row";
 import { Screen } from "../../ui/Screen";
+
+const TODO_LIST_SELECT =
+  "id, title, description, priority, status, archived, created_at";
 
 export default function TodosScreen() {
   const router = useRouter();
@@ -43,9 +47,7 @@ export default function TodosScreen() {
 
       const { data, error } = await supabase
         .from("todos")
-        .select(
-          "id, title, description, priority, status, archived, created_at",
-        )
+        .select(TODO_LIST_SELECT)
         .eq("user_id", user.id)
         .eq("archived", false)
         .order("created_at", { ascending: false });
@@ -62,11 +64,25 @@ export default function TodosScreen() {
     [user],
   );
 
+  useRealTimeSubscription({
+    channelName: user ? `todos:${user.id}` : "todos",
+    enabled: Boolean(user),
+    filter: user ? `user_id=eq.${user.id}` : undefined,
+    onRefresh: () => loadTodos({ silent: true }),
+    resource: {
+      table: "todos",
+    },
+  });
+
   useFocusEffect(
     useCallback(() => {
-      void loadTodos({ silent: todos.length > 0 });
-    }, [loadTodos, todos.length]),
+      void loadTodos({ silent: false });
+    }, [loadTodos]),
   );
+
+  const handleRefresh = useCallback(() => {
+    void loadTodos({ silent: true });
+  }, [loadTodos]);
 
   const content = useMemo(() => {
     if (isLoading) {
@@ -84,8 +100,14 @@ export default function TodosScreen() {
       );
     }
 
-    return <TodoList todos={todos} />;
-  }, [todos, isRefreshing, errorMessage, loadTodos]);
+    return (
+      <TodoList
+        onRefresh={handleRefresh}
+        refreshing={isRefreshing}
+        todos={todos}
+      />
+    );
+  }, [todos, isRefreshing, errorMessage, handleRefresh, loadTodos]);
 
   return (
     <>

@@ -6,6 +6,7 @@ import { supabase } from "../supabase/client";
 
 type AuthContextValue = {
   isLoading: boolean;
+  refreshSession: () => ReturnType<typeof supabase.auth.refreshSession>;
   session: Session | null;
   signIn: typeof supabase.auth.signInWithPassword;
   signOut: () => ReturnType<typeof supabase.auth.signOut>;
@@ -54,6 +55,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         isLoading,
+        refreshSession: () => supabase.auth.refreshSession(),
         session,
         signIn: (credentials) => supabase.auth.signInWithPassword(credentials),
         signOut: () => supabase.auth.signOut(),

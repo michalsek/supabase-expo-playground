@@ -4,7 +4,11 @@ import { EmptyList } from "./EmptyList";
 import { ListItem } from "./ListItem";
 import type { TodoListProps } from "./index";
 
-export function TodoList({ todos }: TodoListProps) {
+export function TodoList({
+  onRefresh,
+  refreshing = false,
+  todos,
+}: TodoListProps) {
   return (
     <FlatList
       contentContainerStyle={styles.content}
@@ -12,7 +16,9 @@ export function TodoList({ todos }: TodoListProps) {
       keyExtractor={(item) => item.id}
       ListEmptyComponent={EmptyList}
       ItemSeparatorComponent={Separator}
+      onRefresh={onRefresh}
       renderItem={({ item }) => <ListItem todo={item} />}
+      refreshing={refreshing}
       showsVerticalScrollIndicator={false}
       style={styles.list}
     />

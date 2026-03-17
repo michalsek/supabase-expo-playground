@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { Platform } from "react-native";
 
 import Env from "../api/Env";
 import { supabaseStorage } from "../auth/storage";
@@ -14,7 +15,11 @@ export const supabase = createClient<Database>(
       persistSession: true,
       storage: supabaseStorage,
     },
+    realtime: {
+      // Workers are not supported on mobile
+      worker: Platform.OS === "web",
+    },
   },
-)
+);
 
 export default supabase;

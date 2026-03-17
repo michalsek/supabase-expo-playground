@@ -16,5 +16,7 @@ export type TodoListItemData = Pick<
 >;
 
 export type TodoListProps = {
+  onRefresh?: () => void;
+  refreshing?: boolean;
   todos: TodoListItemData[];
 };
