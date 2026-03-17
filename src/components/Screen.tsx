@@ -8,6 +8,7 @@ type ScreenProps = PropsWithChildren<{
   edges?: Edge[];
   title?: string;
   subtitle?: string;
+  scrollable?: boolean;
 }>;
 
 export function Screen({
@@ -15,21 +16,38 @@ export function Screen({
   edges = ["bottom", "left", "right"],
   subtitle,
   title,
+  scrollable = true,
 }: ScreenProps) {
   return (
     <SafeAreaView edges={edges} style={styles.screen}>
-      <ScrollView
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
-        {(!!title || !!subtitle) && (
-          <View style={styles.header}>
-            {title ? <Text style={styles.title}>{title}</Text> : null}
-            {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
-          </View>
-        )}
-        <View style={styles.body}>{children}</View>
-      </ScrollView>
+      {scrollable ? (
+        <ScrollView
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+        >
+          {(!!title || !!subtitle) && (
+            <View style={styles.header}>
+              {title ? <Text style={styles.title}>{title}</Text> : null}
+              {subtitle ? (
+                <Text style={styles.subtitle}>{subtitle}</Text>
+              ) : null}
+            </View>
+          )}
+          <View style={styles.body}>{children}</View>
+        </ScrollView>
+      ) : (
+        <View style={styles.content}>
+          {(!!title || !!subtitle) && (
+            <View style={styles.header}>
+              {title ? <Text style={styles.title}>{title}</Text> : null}
+              {subtitle ? (
+                <Text style={styles.subtitle}>{subtitle}</Text>
+              ) : null}
+            </View>
+          )}
+          <View style={styles.body}>{children}</View>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -37,11 +55,13 @@ export function Screen({
 const styles = StyleSheet.create({
   body: {
     gap: 16,
+    flex: 1,
   },
   content: {
     gap: 24,
     padding: 24,
     paddingBottom: 40,
+    flex: 1,
   },
   footer: {
     gap: 12,

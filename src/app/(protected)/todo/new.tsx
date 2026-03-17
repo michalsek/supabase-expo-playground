@@ -1,8 +1,7 @@
-import { Link } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { Screen } from "../../components/Screen";
-import { navigationTheme } from "../../navigation/root-stack";
+import { Screen } from "../../../components/Screen";
+import { navigationTheme } from "../../../navigation/root-stack";
 
 const draftChecklist = [
   "title",
@@ -15,7 +14,7 @@ export default function NewTodoScreen() {
   return (
     <Screen
       title="Create a todo"
-      subtitle="This screen is wired as the initial placeholder for your creation flow. Replace the checklist with a real form when you're ready."
+      subtitle="This screen is now protected by auth and ready for a real creation form."
     >
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Suggested fields</Text>

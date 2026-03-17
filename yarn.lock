@@ -4663,6 +4663,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-crypto@npm:^55.0.9":
+  version: 55.0.9
+  resolution: "expo-crypto@npm:55.0.9"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/6eff2afa56b1f65c33287f185556c78b6bdeec1387c2841cf6c92218500947bc21085bb2c09d77ee293144ba4139974104500edb5399f85fc15fb0369b16e58f
+  languageName: node
+  linkType: hard
+
 "expo-file-system@npm:~55.0.10":
   version: 55.0.10
   resolution: "expo-file-system@npm:55.0.10"
@@ -4826,6 +4835,15 @@ __metadata:
     react-server-dom-webpack:
       optional: true
   checksum: 10c0/7ab32e86a044b4472bb054b26353b1ba4bd00bd260d1d003afcc8ea043b68da6a6ef6239d2739e0d601a5014cd29cf1c0b679bcd29aa1d6c3af88cc28c766345
+  languageName: node
+  linkType: hard
+
+"expo-secure-store@npm:^55.0.8":
+  version: 55.0.8
+  resolution: "expo-secure-store@npm:55.0.8"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/7c393e96f0793d8c1d7f24595183e8d1ba3b77665487376d2b7b6830526063be322837741116c1d824aeb1aaef89a5efb20c0c79293a0c385a32c38994d22a04
   languageName: node
   linkType: hard
 
@@ -7996,6 +8014,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-mmkv@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "react-native-mmkv@npm:4.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-nitro-modules: "*"
+  checksum: 10c0/da2211a52f3a5c256906fcc75d0701d0ee21a7e08c1c630d360df5d1f822efebd7daadf598e052d41bbdc74c6677eee58c8dd6680025b71f777e8527e4e7e8a9
+  languageName: node
+  linkType: hard
+
+"react-native-nitro-modules@npm:^0.35.2":
+  version: 0.35.2
+  resolution: "react-native-nitro-modules@npm:0.35.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/6136f36ac1dc01dface7a4765b3258c8c8c766bc77c53765dfa6a29ff9f2091b13ce3e2a8a651e515cda045d125fc6fdd4f450cb4aabb0ab94c3d6b4b7b55b77
+  languageName: node
+  linkType: hard
+
 "react-native-reanimated@npm:4.2.1":
   version: 4.2.1
   resolution: "react-native-reanimated@npm:4.2.1"
@@ -8949,8 +8988,10 @@ __metadata:
     "@types/react-test-renderer": "npm:^19"
     expo: "npm:~55.0.6"
     expo-constants: "npm:~55.0.7"
+    expo-crypto: "npm:^55.0.9"
     expo-linking: "npm:~55.0.7"
     expo-router: "npm:~55.0.5"
+    expo-secure-store: "npm:^55.0.8"
     expo-status-bar: "npm:~55.0.4"
     expo-system-ui: "npm:~55.0.9"
     jest: "npm:~29.7.0"
@@ -8959,6 +9000,8 @@ __metadata:
     react-dom: "npm:19.2.0"
     react-native: "npm:0.83.2"
     react-native-gesture-handler: "npm:~2.30.0"
+    react-native-mmkv: "npm:^4.2.0"
+    react-native-nitro-modules: "npm:^0.35.2"
     react-native-reanimated: "npm:4.2.1"
     react-native-safe-area-context: "npm:~5.6.2"
     react-native-screens: "npm:~4.23.0"

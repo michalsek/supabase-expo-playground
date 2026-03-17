@@ -1,81 +1,61 @@
-import { Link } from "expo-router";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Link, Redirect } from "expo-router";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
+import { useAuth } from "../auth/AuthProvider";
 import { Screen } from "../components/Screen";
 import { navigationTheme } from "../navigation/root-stack";
 import { routes } from "../navigation/routes";
 
-import "../supabase/client";
-
-const previews = [
-  {
-    href: routes.todoDetails("42"),
-    kicker: "Existing item",
-    title: "Open todo #42",
-    description:
-      "Use the dynamic route with a concrete id to render a detail screen.",
-  },
-  {
-    href: routes.todoNew,
-    kicker: "Creation flow",
-    title: "Create a new todo",
-    description:
-      "Open the modal-style screen that can later host your todo form.",
-  },
-] as const;
-
 export default function HomeScreen() {
+  const { session } = useAuth();
+
+  if (session) {
+    return <Redirect href={routes.todos} />;
+  }
+
   return (
-    <Screen edges={["top", "bottom", "left", "right"]}>
-      {previews.map((preview) => (
-        <Link asChild href={preview.href} key={preview.title}>
-          <Pressable style={styles.card}>
-            <Text style={styles.kicker}>{preview.kicker}</Text>
-            <Text style={styles.cardTitle}>{preview.title}</Text>
-            <Text style={styles.cardDescription}>{preview.description}</Text>
+    <Screen edges={["top", "bottom", "left", "right"]} scrollable={false}>
+      <View style={styles.hero}>
+        <Text style={styles.heroTitle}>Supabase Auth</Text>
+      </View>
+      <View style={styles.spacer} />
+      <View style={styles.actions}>
+        <Link asChild href={routes.signIn}>
+          <Pressable style={primaryActionStyle}>
+            <Text style={styles.primaryActionLabel}>Sign in</Text>
           </Pressable>
         </Link>
-      ))}
-      <Link asChild href={routes.todoNew}>
-        <Pressable style={primaryActionStyle}>
-          <Text style={styles.primaryActionLabel}>Add a todo</Text>
-        </Pressable>
-      </Link>
+        <Link asChild href={routes.signUp}>
+          <Pressable style={secondaryActionStyle}>
+            <Text style={styles.secondaryActionLabel}>Sign up</Text>
+          </Pressable>
+        </Link>
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  hero: {
+    gap: 10,
+  },
+  heroTitle: {
+    color: navigationTheme.colors.text,
+    fontSize: 36,
+    fontWeight: "800",
+    letterSpacing: -0.8,
+  },
+  spacer: {
+    flex: 1,
+  },
   action: {
     alignItems: "center",
-    borderRadius: 18,
+    borderRadius: 4,
     paddingHorizontal: 18,
     paddingVertical: 14,
   },
-  card: {
-    backgroundColor: navigationTheme.colors.card,
-    borderColor: navigationTheme.colors.border,
-    borderRadius: 24,
-    borderWidth: 1,
-    gap: 8,
-    padding: 20,
-  },
-  cardDescription: {
-    color: navigationTheme.colors.muted,
-    fontSize: 15,
-    lineHeight: 22,
-  },
-  cardTitle: {
-    color: navigationTheme.colors.text,
-    fontSize: 22,
-    fontWeight: "700",
-  },
-  kicker: {
-    color: navigationTheme.colors.accent,
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 1,
-    textTransform: "uppercase",
+  actions: {
+    gap: 12,
   },
   primaryAction: {
     backgroundColor: navigationTheme.colors.accent,
@@ -85,9 +65,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
   },
+  secondaryAction: {
+    borderColor: navigationTheme.colors.border,
+    borderWidth: 1,
+  },
+  secondaryActionLabel: {
+    color: navigationTheme.colors.text,
+    fontSize: 16,
+    fontWeight: "700",
+  },
 });
 
 const primaryActionStyle = StyleSheet.flatten([
   styles.action,
   styles.primaryAction,
+]);
+
+const secondaryActionStyle = StyleSheet.flatten([
+  styles.action,
+  styles.secondaryAction,
 ]);

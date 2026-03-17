@@ -31,7 +31,26 @@ export const rootStackScreenOptions = {
 export const rootScreens = {
   index: {
     headerShown: false,
-    title: "Home",
+    title: "Welcome",
+  },
+  confirmation: {
+    title: "Email confirmation",
+  },
+  "sign-in": {
+    title: "Sign in",
+  },
+  "sign-up": {
+    title: "Create account",
+  },
+  "(protected)": {
+    headerShown: false,
+  },
+} as const;
+
+export const protectedScreens = {
+  todos: {
+    headerShown: false,
+    title: "Todos",
   },
   "todo/[id]": {
     title: "Todo details",
