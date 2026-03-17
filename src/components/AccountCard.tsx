@@ -1,6 +1,9 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 import { navigationTheme } from "../navigation/root-stack";
+import { Card } from "../ui/Card";
+import { Row } from "../ui/Row";
+import { Spacer } from "../ui/Spacer";
 
 type AccountCardAction = {
   disabled?: boolean;
@@ -15,12 +18,12 @@ type AccountCardProps = {
 
 export function AccountCard({ actions = [], email }: AccountCardProps) {
   return (
-    <View style={styles.card}>
+    <Card>
       <Text style={styles.kicker}>Authenticated as</Text>
       <Text style={styles.accountValue}>{email ?? "Unknown email"}</Text>
-      <View style={{ height: 12 }} />
+      <Spacer.Vertical size={12} />
       {actions.length > 0 ? (
-        <View style={styles.actionRow}>
+        <Row gap={12}>
           {actions.map((action) => (
             <Pressable
               disabled={action.disabled}
@@ -34,9 +37,9 @@ export function AccountCard({ actions = [], email }: AccountCardProps) {
               <Text style={styles.secondaryActionLabel}>{action.label}</Text>
             </Pressable>
           ))}
-        </View>
+        </Row>
       ) : null}
-    </View>
+    </Card>
   );
 }
 
@@ -57,17 +60,6 @@ const styles = StyleSheet.create({
   },
   actionMuted: {
     opacity: 0.6,
-  },
-  actionRow: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  card: {
-    backgroundColor: navigationTheme.colors.card,
-    borderColor: navigationTheme.colors.border,
-    borderWidth: 1,
-    gap: 12,
-    padding: 12,
   },
   kicker: {
     color: navigationTheme.colors.accent,

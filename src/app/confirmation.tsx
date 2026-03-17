@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { useAuth } from "../auth/AuthProvider";
 import { emailConfirmationRedirectUrl } from "../auth/redirect";
-import { Screen } from "../components/Screen";
+import { Screen } from "../ui/Screen";
 import { navigationTheme } from "../navigation/root-stack";
 import { routes } from "../navigation/routes";
 import { supabase } from "../supabase/client";

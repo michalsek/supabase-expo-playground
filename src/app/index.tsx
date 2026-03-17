@@ -2,7 +2,7 @@ import { Link, Redirect } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { useAuth } from "../auth/AuthProvider";
-import { Screen } from "../components/Screen";
+import { Screen } from "../ui/Screen";
 import { navigationTheme } from "../navigation/root-stack";
 import { routes } from "../navigation/routes";
 

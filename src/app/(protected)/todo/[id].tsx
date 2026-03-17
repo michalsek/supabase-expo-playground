@@ -5,7 +5,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 
 import { useAuth } from "../../../auth/AuthProvider";
 import { ErrorView } from "../../../components/ErrorView";
 import { LoadingView } from "../../../components/LoadingView";
-import { Screen } from "../../../components/Screen";
+import { Screen } from "../../../ui/Screen";
 import type { Enums, Tables, TablesUpdate } from "../../../database/types";
 import { navigationTheme } from "../../../navigation/root-stack";
 import { routes } from "../../../navigation/routes";

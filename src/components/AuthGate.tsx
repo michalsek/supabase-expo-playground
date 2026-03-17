@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { LoadingView } from "./LoadingView";
-import { Screen } from "./Screen";
 import { navigationTheme } from "../navigation/root-stack";
+import { Screen } from "../ui/Screen";
+import { LoadingView } from "./LoadingView";
 
 type AuthGateProps = {
   description: string;

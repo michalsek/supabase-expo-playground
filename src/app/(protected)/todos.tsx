@@ -6,7 +6,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { useAuth } from "../../auth/AuthProvider";
 import { ErrorView } from "../../components/ErrorView";
 import { LoadingView } from "../../components/LoadingView";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../../ui/Screen";
 import { TodoList, type TodoListItemData } from "../../components/TodoList";
 import { navigationTheme } from "../../navigation/root-stack";
 import { routes } from "../../navigation/routes";

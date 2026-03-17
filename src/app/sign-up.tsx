@@ -5,7 +5,7 @@ import { useAuth } from "../auth/AuthProvider";
 import { emailConfirmationRedirectUrl } from "../auth/redirect";
 import { AuthForm } from "../components/AuthForm";
 import { AuthGate } from "../components/AuthGate";
-import { Screen } from "../components/Screen";
+import { Screen } from "../ui/Screen";
 import { routes } from "../navigation/routes";
 
 export default function SignUpScreen() {

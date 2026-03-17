@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
 import { AuthForm } from "../components/AuthForm";
 import { AuthGate } from "../components/AuthGate";
-import { Screen } from "../components/Screen";
+import { Screen } from "../ui/Screen";
 import { routes } from "../navigation/routes";
 
 export default function SignInScreen() {

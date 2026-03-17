@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import { useAuth } from "../../../auth/AuthProvider";
-import { Screen } from "../../../components/Screen";
+import { Screen } from "../../../ui/Screen";
 import type { TablesInsert } from "../../../database/types";
 import { navigationTheme } from "../../../navigation/root-stack";
 import { routes } from "../../../navigation/routes";
