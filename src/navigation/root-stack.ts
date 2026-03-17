@@ -49,8 +49,10 @@ export const rootScreens = {
 
 export const protectedScreens = {
   todos: {
-    headerShown: false,
     title: "Todos",
+  },
+  settings: {
+    title: "Settings",
   },
   "todo/[id]": {
     title: "Todo details",

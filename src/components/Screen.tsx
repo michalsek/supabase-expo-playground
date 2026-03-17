@@ -9,6 +9,7 @@ type ScreenProps = PropsWithChildren<{
   title?: string;
   subtitle?: string;
   scrollable?: boolean;
+  disablePadding?: boolean;
 }>;
 
 export function Screen({
@@ -17,6 +18,7 @@ export function Screen({
   subtitle,
   title,
   scrollable = true,
+  disablePadding = false,
 }: ScreenProps) {
   return (
     <SafeAreaView edges={edges} style={styles.screen}>
@@ -36,7 +38,9 @@ export function Screen({
           <View style={styles.body}>{children}</View>
         </ScrollView>
       ) : (
-        <View style={styles.content}>
+        <View
+          style={disablePadding ? styles.contentWithoutPadding : styles.content}
+        >
           {(!!title || !!subtitle) && (
             <View style={styles.header}>
               {title ? <Text style={styles.title}>{title}</Text> : null}
@@ -53,14 +57,19 @@ export function Screen({
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: navigationTheme.colors.background,
+    flex: 1,
+  },
   body: {
-    gap: 16,
     flex: 1,
   },
   content: {
-    gap: 24,
     padding: 24,
     paddingBottom: 40,
+    flex: 1,
+  },
+  contentWithoutPadding: {
     flex: 1,
   },
   footer: {
@@ -68,10 +77,6 @@ const styles = StyleSheet.create({
   },
   header: {
     gap: 8,
-  },
-  screen: {
-    backgroundColor: navigationTheme.colors.background,
-    flex: 1,
   },
   subtitle: {
     color: navigationTheme.colors.muted,

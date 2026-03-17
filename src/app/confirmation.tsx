@@ -1,5 +1,5 @@
-import { Link } from "expo-router";
 import * as Linking from "expo-linking";
+import { Link, Redirect } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -30,7 +30,7 @@ function getDeepLinkParams(url: string) {
 
 export default function ConfirmationScreen() {
   const { session } = useAuth();
-  const url = Linking.useURL();
+  const url = Linking.useLinkingURL();
   const processedUrlRef = useRef<string | null>(null);
   const [message, setMessage] = useState(
     "Open the confirmation link from your email to finish activating your account.",
@@ -87,7 +87,9 @@ export default function ConfirmationScreen() {
         }
 
         setStatus("success");
-        setMessage("Your email has been confirmed. You can continue into the app.");
+        setMessage(
+          "Your email has been confirmed. You can continue into the app.",
+        );
         return;
       }
 
@@ -108,7 +110,9 @@ export default function ConfirmationScreen() {
         }
 
         setStatus("success");
-        setMessage("Your email has been confirmed. You can continue into the app.");
+        setMessage(
+          "Your email has been confirmed. You can continue into the app.",
+        );
         return;
       }
 
@@ -133,6 +137,10 @@ export default function ConfirmationScreen() {
 
   const isSuccess = status === "success";
   const isError = status === "error";
+
+  if (session) {
+    return <Redirect href={routes.todos} />;
+  }
 
   return (
     <Screen edges={["top", "bottom", "left", "right"]}>

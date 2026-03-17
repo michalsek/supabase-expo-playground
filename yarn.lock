@@ -4893,7 +4893,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-symbols@npm:^55.0.5":
+"expo-symbols@npm:^55.0.5, expo-symbols@npm:~55.0.5":
   version: 55.0.5
   resolution: "expo-symbols@npm:55.0.5"
   dependencies:
@@ -9074,10 +9074,12 @@ __metadata:
     expo: "npm:~55.0.6"
     expo-constants: "npm:~55.0.7"
     expo-crypto: "npm:^55.0.9"
+    expo-font: "npm:~55.0.4"
     expo-linking: "npm:~55.0.7"
     expo-router: "npm:~55.0.5"
     expo-secure-store: "npm:^55.0.8"
     expo-status-bar: "npm:~55.0.4"
+    expo-symbols: "npm:~55.0.5"
     expo-system-ui: "npm:~55.0.9"
     jest: "npm:~29.7.0"
     jest-expo: "npm:~55.0.9"

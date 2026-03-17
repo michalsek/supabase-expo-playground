@@ -27,6 +27,7 @@ export default function ProtectedLayout() {
   return (
     <Stack screenOptions={rootStackScreenOptions}>
       <Stack.Screen name="todos" options={protectedScreens.todos} />
+      <Stack.Screen name="settings" options={protectedScreens.settings} />
       <Stack.Screen name="todo/new" options={protectedScreens["todo/new"]} />
       <Stack.Screen name="todo/[id]" options={protectedScreens["todo/[id]"]} />
     </Stack>
