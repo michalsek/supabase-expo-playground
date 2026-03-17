@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 import { EmptyList } from "./EmptyList";
 import { ListItem } from "./ListItem";
@@ -11,6 +11,7 @@ export function TodoList({ todos }: TodoListProps) {
       data={todos}
       keyExtractor={(item) => item.id}
       ListEmptyComponent={EmptyList}
+      ItemSeparatorComponent={Separator}
       renderItem={({ item }) => <ListItem todo={item} />}
       showsVerticalScrollIndicator={false}
       style={styles.list}
@@ -18,13 +19,18 @@ export function TodoList({ todos }: TodoListProps) {
   );
 }
 
+const Separator = () => <View style={styles.separator} />;
+
 const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
-    gap: 16,
     paddingBottom: 40,
   },
   list: {
     flex: 1,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: "#E1E1E6",
   },
 });

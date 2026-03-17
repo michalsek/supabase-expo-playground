@@ -1,46 +1,26 @@
-import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { useCallback, useState } from "react";
 import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+  Stack,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
+import { useCallback, useState } from "react";
 
 import { useAuth } from "../../../auth/AuthProvider";
 import { ErrorView } from "../../../components/ErrorView";
 import { LoadingView } from "../../../components/LoadingView";
-import { Card } from "../../../ui/Card";
-import { Column } from "../../../ui/Column";
-import { Row } from "../../../ui/Row";
-import { Screen } from "../../../ui/Screen";
-import type { Enums, Tables, TablesUpdate } from "../../../database/types";
-import { navigationTheme } from "../../../navigation/root-stack";
+import {
+  TodoDetailsEdit,
+  type EditTodoValues,
+} from "../../../components/TodoDetails/TodoDetailsEdit";
+import { TodoDetailsView } from "../../../components/TodoDetails/TodoDetailsView";
+import { normalizeTextInput, toPriority } from "../../../components/TodoForm";
+import type { Tables, TablesUpdate } from "../../../database/types";
 import { routes } from "../../../navigation/routes";
 import { supabase } from "../../../supabase/client";
+import { Screen } from "../../../ui/Screen";
 
 type Todo = Tables<"todos">;
-type TodoStatus = Enums<"todo_status">;
-
-const todoStatusOptions: TodoStatus[] = ["pending", "done", "cancelled"];
-
-function normalizeTextInput(value: string) {
-  const trimmed = value.trim();
-
-  return trimmed.length > 0 ? trimmed : null;
-}
-
-function toPriority(value: string, fallback: number) {
-  const parsed = Number.parseInt(value, 10);
-
-  if (Number.isNaN(parsed)) {
-    return fallback;
-  }
-
-  return Math.min(Math.max(parsed, 1), 5);
-}
 
 export default function TodoDetailsScreen() {
   const { user } = useAuth();
@@ -48,25 +28,14 @@ export default function TodoDetailsScreen() {
   const params = useLocalSearchParams<{ id?: string | string[] }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  const [archived, setArchived] = useState(false);
-  const [description, setDescription] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [notes, setNotes] = useState("");
-  const [priorityText, setPriorityText] = useState("3");
-  const [status, setStatus] = useState<TodoStatus>("pending");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [title, setTitle] = useState("");
   const [todo, setTodo] = useState<Todo | null>(null);
 
-  const syncForm = useCallback((nextTodo: Todo) => {
-    setArchived(nextTodo.archived);
-    setDescription(nextTodo.description ?? "");
-    setNotes(nextTodo.notes ?? "");
-    setPriorityText(String(nextTodo.priority));
-    setStatus(nextTodo.status);
-    setTitle(nextTodo.title);
+  const syncTodo = useCallback((nextTodo: Todo) => {
     setTodo(nextTodo);
   }, []);
 
@@ -79,6 +48,7 @@ export default function TodoDetailsScreen() {
     }
 
     setErrorMessage(null);
+    setIsEditing(false);
     setSuccessMessage(null);
     setIsLoading(true);
 
@@ -92,14 +62,16 @@ export default function TodoDetailsScreen() {
     if (error) {
       setErrorMessage(error.message);
     } else if (!data) {
-      setErrorMessage("This todo does not exist or you do not have access to it.");
+      setErrorMessage(
+        "This todo does not exist or you do not have access to it.",
+      );
       setTodo(null);
     } else {
-      syncForm(data);
+      syncTodo(data);
     }
 
     setIsLoading(false);
-  }, [id, syncForm, user]);
+  }, [id, syncTodo, user]);
 
   useFocusEffect(
     useCallback(() => {
@@ -107,329 +79,110 @@ export default function TodoDetailsScreen() {
     }, [loadTodo]),
   );
 
-  const handleSave = useCallback(async () => {
-    if (!todo || !user) {
-      setErrorMessage("The todo is not ready to save.");
-
-      return;
-    }
-
-    const normalizedTitle = title.trim();
-
-    if (normalizedTitle.length === 0) {
-      setErrorMessage("Title is required.");
-
-      return;
-    }
-
-    setIsSaving(true);
+  const handleStartEditing = useCallback(() => {
     setErrorMessage(null);
     setSuccessMessage(null);
+    setIsEditing(true);
+  }, []);
 
-    const nextStatus = status;
-    const nextCompletedAt =
-      nextStatus === "done"
-        ? todo.completed_at ?? new Date().toISOString()
-        : null;
+  const handleCancelEditing = useCallback(() => {
+    setErrorMessage(null);
+    setIsEditing(false);
+  }, []);
 
-    const payload: TablesUpdate<"todos"> = {
-      archived,
-      completed_at: nextCompletedAt,
-      description: normalizeTextInput(description),
-      notes: normalizeTextInput(notes),
-      priority: toPriority(priorityText, todo.priority),
-      status: nextStatus,
-      title: normalizedTitle,
-    };
+  const handleSave = useCallback(
+    async (values: EditTodoValues) => {
+      if (!todo || !user) {
+        setErrorMessage("The todo is not ready to save.");
 
-    const { data, error } = await supabase
-      .from("todos")
-      .update(payload)
-      .eq("id", todo.id)
-      .eq("user_id", user.id)
-      .select("*")
-      .single();
+        return;
+      }
 
-    if (error) {
-      setErrorMessage(error.message);
-    } else {
-      syncForm(data);
-      setSuccessMessage("Changes saved.");
-    }
+      const normalizedTitle = values.title.trim();
 
-    setIsSaving(false);
-  }, [
-    archived,
-    description,
-    notes,
-    priorityText,
-    status,
-    syncForm,
-    title,
-    todo,
-    user,
-  ]);
+      if (normalizedTitle.length === 0) {
+        setErrorMessage("Title is required.");
+
+        return;
+      }
+
+      setErrorMessage(null);
+      setIsSaving(true);
+      setSuccessMessage(null);
+
+      const nextCompletedAt =
+        values.status === "done"
+          ? (todo.completed_at ?? new Date().toISOString())
+          : null;
+
+      const payload: TablesUpdate<"todos"> = {
+        archived: values.archived,
+        completed_at: nextCompletedAt,
+        description: normalizeTextInput(values.description),
+        notes: normalizeTextInput(values.notes),
+        priority: toPriority(values.priorityText, todo.priority),
+        status: values.status,
+        title: normalizedTitle,
+      };
+
+      const { data, error } = await supabase
+        .from("todos")
+        .update(payload)
+        .eq("id", todo.id)
+        .eq("user_id", user.id)
+        .select("*")
+        .single();
+
+      if (error) {
+        setErrorMessage(error.message);
+      } else {
+        syncTodo(data);
+        setIsEditing(false);
+        setSuccessMessage("Changes saved.");
+      }
+
+      setIsSaving(false);
+    },
+    [syncTodo, todo, user],
+  );
 
   const screenTitle = todo?.title ?? (id ? `Todo ${id}` : "Todo details");
 
   return (
-    <Screen
-      subtitle="Update the row stored in your Supabase `todos` table."
-      title={screenTitle}
-    >
-      {isLoading ? <LoadingView message="Loading todo details..." /> : null}
+    <>
+      <Screen title={screenTitle}>
+        {isLoading ? <LoadingView message="Loading todo details..." /> : null}
 
-      {!isLoading && !todo ? (
-        <ErrorView
-          actionLabel="Back to todos"
-          message={
-            errorMessage ?? "The requested todo could not be loaded."
-          }
-          onAction={() => router.replace(routes.todos)}
-          title="Todo unavailable"
-        />
-      ) : null}
+        {!isLoading && !todo ? (
+          <ErrorView
+            actionLabel="Back to todos"
+            message={errorMessage ?? "The requested todo could not be loaded."}
+            onAction={() => router.replace(routes.todos)}
+            title="Todo unavailable"
+          />
+        ) : null}
 
-      {!isLoading && todo ? (
-        <Column gap={16}>
-          <Card gap={10} padding={20} style={styles.card}>
-            <Text style={styles.label}>Title</Text>
-            <TextInput
-              onChangeText={setTitle}
-              placeholder="Ship onboarding copy"
-              placeholderTextColor={navigationTheme.colors.muted}
-              style={styles.input}
-              value={title}
+        {!isLoading && todo ? (
+          isEditing ? (
+            <TodoDetailsEdit
+              errorMessage={errorMessage}
+              isSaving={isSaving}
+              onCancel={handleCancelEditing}
+              onSave={handleSave}
+              todo={todo}
             />
-          </Card>
-
-          <Card gap={10} padding={20} style={styles.card}>
-            <Text style={styles.label}>Description</Text>
-            <TextInput
-              multiline
-              onChangeText={setDescription}
-              placeholder="Short context for this todo"
-              placeholderTextColor={navigationTheme.colors.muted}
-              style={[styles.input, styles.textArea]}
-              textAlignVertical="top"
-              value={description}
+          ) : (
+            <TodoDetailsView
+              onEdit={handleStartEditing}
+              successMessage={successMessage}
+              todo={todo}
             />
-          </Card>
-
-          <Card gap={10} padding={20} style={styles.card}>
-            <Text style={styles.label}>Notes</Text>
-            <TextInput
-              multiline
-              onChangeText={setNotes}
-              placeholder="Optional implementation notes"
-              placeholderTextColor={navigationTheme.colors.muted}
-              style={[styles.input, styles.textArea]}
-              textAlignVertical="top"
-              value={notes}
-            />
-          </Card>
-
-          <Card gap={10} padding={20} style={styles.card}>
-            <Text style={styles.label}>Priority</Text>
-            <TextInput
-              keyboardType="number-pad"
-              onChangeText={setPriorityText}
-              placeholder="1-5"
-              placeholderTextColor={navigationTheme.colors.muted}
-              style={styles.input}
-              value={priorityText}
-            />
-            <Text style={styles.helperText}>Saved as a number between 1 and 5.</Text>
-          </Card>
-
-          <Card gap={10} padding={20} style={styles.card}>
-            <Text style={styles.label}>Status</Text>
-            <Row gap={10}>
-              {todoStatusOptions.map((option) => {
-                const isActive = option === status;
-
-                return (
-                  <Pressable
-                    key={option}
-                    onPress={() => setStatus(option)}
-                    style={[
-                      styles.segmentButton,
-                      isActive && styles.segmentButtonActive,
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.segmentLabel,
-                        isActive && styles.segmentLabelActive,
-                      ]}
-                    >
-                      {option}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </Row>
-          </Card>
-
-          <Pressable
-            onPress={() => setArchived((current) => !current)}
-            style={[styles.toggleCard, styles.cardPressable]}
-          >
-            <View>
-              <Text style={styles.label}>Archived</Text>
-              <Text style={styles.helperText}>
-                Archived todos disappear from the main list.
-              </Text>
-            </View>
-            <View
-              style={[
-                styles.togglePill,
-                archived && styles.togglePillActive,
-              ]}
-            >
-              <Text
-                style={[
-                  styles.toggleLabel,
-                  archived && styles.toggleLabelActive,
-                ]}
-              >
-                {archived ? "Yes" : "No"}
-              </Text>
-            </View>
-          </Pressable>
-
-          {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-          {successMessage ? (
-            <Text style={styles.successText}>{successMessage}</Text>
-          ) : null}
-
-          <Pressable
-            disabled={isSaving}
-            onPress={() => void handleSave()}
-            style={[primaryActionStyle, isSaving && styles.primaryActionMuted]}
-          >
-            {isSaving ? (
-              <ActivityIndicator color="#f7fffd" />
-            ) : (
-              <Text style={styles.primaryActionLabel}>Save changes</Text>
-            )}
-          </Pressable>
-        </Column>
-      ) : null}
-    </Screen>
+          )
+        ) : null}
+      </Screen>
+      <Stack.Screen
+        options={{ title: isEditing ? "Edit todo" : "Todo details" }}
+      />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    borderRadius: 24,
-  },
-  cardPressable: {
-    backgroundColor: navigationTheme.colors.card,
-    borderColor: navigationTheme.colors.border,
-    borderRadius: 24,
-    borderWidth: 1,
-    gap: 10,
-    padding: 20,
-  },
-  errorText: {
-    color: "#b42318",
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  helperText: {
-    color: navigationTheme.colors.muted,
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  input: {
-    backgroundColor: "#fffaf1",
-    borderColor: navigationTheme.colors.border,
-    borderRadius: 16,
-    borderWidth: 1,
-    color: navigationTheme.colors.text,
-    fontSize: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-  },
-  label: {
-    color: navigationTheme.colors.text,
-    fontSize: 14,
-    fontWeight: "700",
-  },
-  primaryAction: {
-    alignItems: "center",
-    backgroundColor: navigationTheme.colors.accent,
-    borderRadius: 18,
-    justifyContent: "center",
-    minHeight: 52,
-    paddingHorizontal: 18,
-    paddingVertical: 14,
-  },
-  primaryActionLabel: {
-    color: "#f7fffd",
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  primaryActionMuted: {
-    opacity: 0.6,
-  },
-  segmentButton: {
-    alignItems: "center",
-    borderColor: navigationTheme.colors.border,
-    borderRadius: 999,
-    borderWidth: 1,
-    flex: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-  },
-  segmentButtonActive: {
-    backgroundColor: navigationTheme.colors.accent,
-    borderColor: navigationTheme.colors.accent,
-  },
-  segmentLabel: {
-    color: navigationTheme.colors.text,
-    fontSize: 14,
-    fontWeight: "700",
-    textTransform: "capitalize",
-  },
-  segmentLabelActive: {
-    color: "#f7fffd",
-  },
-  successText: {
-    color: "#0f766e",
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  textArea: {
-    minHeight: 120,
-  },
-  toggleCard: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  toggleLabel: {
-    color: navigationTheme.colors.text,
-    fontSize: 14,
-    fontWeight: "700",
-  },
-  toggleLabelActive: {
-    color: "#f7fffd",
-  },
-  togglePill: {
-    backgroundColor: "#fffaf1",
-    borderColor: navigationTheme.colors.border,
-    borderRadius: 999,
-    borderWidth: 1,
-    minWidth: 56,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-  },
-  togglePillActive: {
-    backgroundColor: navigationTheme.colors.accent,
-    borderColor: navigationTheme.colors.accent,
-  },
-});
-
-const primaryActionStyle = StyleSheet.flatten([styles.primaryAction]);

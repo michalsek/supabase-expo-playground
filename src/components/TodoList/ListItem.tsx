@@ -52,11 +52,8 @@ export function ListItem({ todo }: ListItemProps) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: navigationTheme.colors.card,
-    borderColor: navigationTheme.colors.border,
-    borderRadius: 24,
-    borderWidth: 1,
-    gap: 12,
-    padding: 20,
+    padding: 16,
+    gap: 8,
   },
   cardDescription: {
     color: navigationTheme.colors.muted,
@@ -65,13 +62,11 @@ const styles = StyleSheet.create({
   },
   cardDescriptionMuted: {
     color: navigationTheme.colors.muted,
-    fontSize: 15,
-    fontStyle: "italic",
-    lineHeight: 22,
+    fontSize: 16,
   },
   cardMeta: {
     color: navigationTheme.colors.muted,
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: "600",
   },
   cardTitle: {

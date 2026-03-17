@@ -6,12 +6,12 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { useAuth } from "../../auth/AuthProvider";
 import { ErrorView } from "../../components/ErrorView";
 import { LoadingView } from "../../components/LoadingView";
-import { Row } from "../../ui/Row";
-import { Screen } from "../../ui/Screen";
 import { TodoList, type TodoListItemData } from "../../components/TodoList";
 import { navigationTheme } from "../../navigation/root-stack";
 import { routes } from "../../navigation/routes";
 import { supabase } from "../../supabase/client";
+import { Row } from "../../ui/Row";
+import { Screen } from "../../ui/Screen";
 
 export default function TodosScreen() {
   const router = useRouter();
