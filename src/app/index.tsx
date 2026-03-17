@@ -10,30 +10,21 @@ const previews = [
     href: routes.todoDetails("42"),
     kicker: "Existing item",
     title: "Open todo #42",
-    description: "Use the dynamic route with a concrete id to render a detail screen.",
+    description:
+      "Use the dynamic route with a concrete id to render a detail screen.",
   },
   {
     href: routes.todoNew,
     kicker: "Creation flow",
     title: "Create a new todo",
-    description: "Open the modal-style screen that can later host your todo form.",
+    description:
+      "Open the modal-style screen that can later host your todo form.",
   },
 ] as const;
 
 export default function HomeScreen() {
   return (
-    <Screen
-      edges={["top", "bottom", "left", "right"]}
-      title="Router baseline"
-      subtitle="Expo Router is mounted from src/App.tsx, while route files live under src/app and shared route helpers stay in src/navigation."
-      footer={
-        <Link asChild href={routes.todoNew}>
-          <Pressable style={primaryActionStyle}>
-            <Text style={styles.primaryActionLabel}>Add a todo</Text>
-          </Pressable>
-        </Link>
-      }
-    >
+    <Screen edges={["top", "bottom", "left", "right"]}>
       {previews.map((preview) => (
         <Link asChild href={preview.href} key={preview.title}>
           <Pressable style={styles.card}>
@@ -43,6 +34,11 @@ export default function HomeScreen() {
           </Pressable>
         </Link>
       ))}
+      <Link asChild href={routes.todoNew}>
+        <Pressable style={primaryActionStyle}>
+          <Text style={styles.primaryActionLabel}>Add a todo</Text>
+        </Pressable>
+      </Link>
     </Screen>
   );
 }

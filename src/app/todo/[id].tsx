@@ -3,7 +3,6 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { Screen } from "../../components/Screen";
 import { navigationTheme } from "../../navigation/root-stack";
-import { routes } from "../../navigation/routes";
 
 export default function TodoDetailsScreen() {
   const params = useLocalSearchParams<{ id?: string | string[] }>();
@@ -13,20 +12,6 @@ export default function TodoDetailsScreen() {
     <Screen
       title={`Todo ${id ?? "unknown"}`}
       subtitle="This dynamic route reads the id parameter from Expo Router and is ready for data loading once you connect your store or backend."
-      footer={
-        <View style={styles.footer}>
-          <Link asChild href={routes.home}>
-            <Pressable style={styles.secondaryAction}>
-              <Text style={styles.secondaryActionLabel}>Back home</Text>
-            </Pressable>
-          </Link>
-          <Link asChild href={routes.todoNew}>
-            <Pressable style={styles.primaryAction}>
-              <Text style={styles.primaryActionLabel}>Add another todo</Text>
-            </Pressable>
-          </Link>
-        </View>
-      }
     >
       <View style={styles.card}>
         <Text style={styles.label}>Route parameter</Text>

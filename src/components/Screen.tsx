@@ -6,15 +6,13 @@ import { navigationTheme } from "../navigation/root-stack";
 
 type ScreenProps = PropsWithChildren<{
   edges?: Edge[];
-  title: string;
+  title?: string;
   subtitle?: string;
-  footer?: ReactNode;
 }>;
 
 export function Screen({
   children,
   edges = ["bottom", "left", "right"],
-  footer,
   subtitle,
   title,
 }: ScreenProps) {
@@ -24,12 +22,13 @@ export function Screen({
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.header}>
-          <Text style={styles.title}>{title}</Text>
-          {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
-        </View>
+        {(!!title || !!subtitle) && (
+          <View style={styles.header}>
+            {title ? <Text style={styles.title}>{title}</Text> : null}
+            {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+          </View>
+        )}
         <View style={styles.body}>{children}</View>
-        {footer ? <View style={styles.footer}>{footer}</View> : null}
       </ScrollView>
     </SafeAreaView>
   );

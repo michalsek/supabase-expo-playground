@@ -3,7 +3,6 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { Screen } from "../../components/Screen";
 import { navigationTheme } from "../../navigation/root-stack";
-import { routes } from "../../navigation/routes";
 
 const draftChecklist = [
   "title",
@@ -17,13 +16,6 @@ export default function NewTodoScreen() {
     <Screen
       title="Create a todo"
       subtitle="This screen is wired as the initial placeholder for your creation flow. Replace the checklist with a real form when you're ready."
-      footer={
-        <Link asChild href={routes.todoDetails("draft")}>
-          <Pressable style={styles.action}>
-            <Text style={styles.actionLabel}>Preview draft route</Text>
-          </Pressable>
-        </Link>
-      }
     >
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Suggested fields</Text>
