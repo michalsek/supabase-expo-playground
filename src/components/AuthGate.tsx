@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 import { navigationTheme } from "../navigation/root-stack";
+import { Column } from "../ui/Column";
 import { Screen } from "../ui/Screen";
 import { LoadingView } from "./LoadingView";
 
@@ -12,18 +13,15 @@ type AuthGateProps = {
 export function AuthGate({ description, title }: AuthGateProps) {
   return (
     <Screen edges={["top", "bottom", "left", "right"]}>
-      <View style={styles.card}>
+      <Column gap={12}>
         <Text style={styles.title}>{title}</Text>
         <LoadingView message={description} />
-      </View>
+      </Column>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    gap: 12,
-  },
   title: {
     color: navigationTheme.colors.text,
     fontSize: 22,

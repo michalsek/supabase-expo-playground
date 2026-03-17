@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 import { navigationTheme } from "../../navigation/root-stack";
+import { Column } from "../../ui/Column";
 
 type EmptyListProps = {
   message?: string;
@@ -12,20 +13,18 @@ export function EmptyList({
   title = "No todos yet",
 }: EmptyListProps) {
   return (
-    <View style={styles.card}>
+    <Column align="center" gap={12} style={styles.card}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.message}>{message}</Text>
-    </View>
+    </Column>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    alignItems: "center",
-    gap: 12,
     padding: 24,
-    flex: 1,
     paddingTop: 120,
+    flex: 1,
   },
   message: {
     color: navigationTheme.colors.muted,

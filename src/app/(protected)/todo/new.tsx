@@ -6,11 +6,12 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View,
 } from "react-native";
 
 import { useAuth } from "../../../auth/AuthProvider";
 import { Screen } from "../../../ui/Screen";
+import { Card } from "../../../ui/Card";
+import { Column } from "../../../ui/Column";
 import type { TablesInsert } from "../../../database/types";
 import { navigationTheme } from "../../../navigation/root-stack";
 import { routes } from "../../../navigation/routes";
@@ -96,8 +97,8 @@ export default function NewTodoScreen() {
       subtitle="Create a new row in your Supabase `todos` table."
       title="Create a todo"
     >
-      <View style={styles.form}>
-        <View style={styles.card}>
+      <Column gap={16}>
+        <Card gap={10} padding={20} style={styles.card}>
           <Text style={styles.label}>Title</Text>
           <TextInput
             onChangeText={setTitle}
@@ -106,9 +107,9 @@ export default function NewTodoScreen() {
             style={styles.input}
             value={title}
           />
-        </View>
+        </Card>
 
-        <View style={styles.card}>
+        <Card gap={10} padding={20} style={styles.card}>
           <Text style={styles.label}>Description</Text>
           <TextInput
             multiline
@@ -119,9 +120,9 @@ export default function NewTodoScreen() {
             textAlignVertical="top"
             value={description}
           />
-        </View>
+        </Card>
 
-        <View style={styles.card}>
+        <Card gap={10} padding={20} style={styles.card}>
           <Text style={styles.label}>Notes</Text>
           <TextInput
             multiline
@@ -132,9 +133,9 @@ export default function NewTodoScreen() {
             textAlignVertical="top"
             value={notes}
           />
-        </View>
+        </Card>
 
-        <View style={styles.card}>
+        <Card gap={10} padding={20} style={styles.card}>
           <Text style={styles.label}>Priority</Text>
           <TextInput
             keyboardType="number-pad"
@@ -147,9 +148,11 @@ export default function NewTodoScreen() {
           <Text style={styles.helperText}>
             Priority is clamped to the `1-5` range before insert.
           </Text>
-        </View>
+        </Card>
 
-        {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+        {errorMessage ? (
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        ) : null}
 
         <Pressable
           disabled={isDisabled}
@@ -170,27 +173,19 @@ export default function NewTodoScreen() {
         >
           <Text style={styles.secondaryActionLabel}>Cancel</Text>
         </Pressable>
-      </View>
+      </Column>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: navigationTheme.colors.card,
-    borderColor: navigationTheme.colors.border,
     borderRadius: 24,
-    borderWidth: 1,
-    gap: 10,
-    padding: 20,
   },
   errorText: {
     color: "#b42318",
     fontSize: 14,
     lineHeight: 20,
-  },
-  form: {
-    gap: 16,
   },
   helperText: {
     color: navigationTheme.colors.muted,

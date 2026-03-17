@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { navigationTheme } from "../../navigation/root-stack";
 import { routes } from "../../navigation/routes";
+import { Row } from "../../ui/Row";
 import type { TodoListItemData } from "./index";
 
 const statusTone = {
@@ -19,7 +20,7 @@ export function ListItem({ todo }: ListItemProps) {
   return (
     <Link asChild href={routes.todoDetails(todo.id)}>
       <Pressable style={styles.card}>
-        <View style={styles.cardHeader}>
+        <Row align="flex-start" gap={12} justify="space-between">
           <Text style={styles.cardTitle}>{todo.title}</Text>
           <View
             style={[
@@ -29,7 +30,7 @@ export function ListItem({ todo }: ListItemProps) {
           >
             <Text style={styles.statusBadgeLabel}>{todo.status}</Text>
           </View>
-        </View>
+        </Row>
         {todo.description ? (
           <Text numberOfLines={2} style={styles.cardDescription}>
             {todo.description}
@@ -37,12 +38,12 @@ export function ListItem({ todo }: ListItemProps) {
         ) : (
           <Text style={styles.cardDescriptionMuted}>No description yet</Text>
         )}
-        <View style={styles.cardFooter}>
+        <Row justify="space-between">
           <Text style={styles.cardMeta}>Priority {todo.priority}</Text>
           <Text style={styles.cardMeta}>
             {new Date(todo.created_at).toLocaleDateString()}
           </Text>
-        </View>
+        </Row>
       </Pressable>
     </Link>
   );
@@ -67,16 +68,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontStyle: "italic",
     lineHeight: 22,
-  },
-  cardFooter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  cardHeader: {
-    alignItems: "flex-start",
-    flexDirection: "row",
-    gap: 12,
-    justifyContent: "space-between",
   },
   cardMeta: {
     color: navigationTheme.colors.muted,

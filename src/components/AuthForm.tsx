@@ -5,11 +5,12 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View,
 } from "react-native";
 import { useState } from "react";
 
 import { navigationTheme } from "../navigation/root-stack";
+import { Card } from "../ui/Card";
+import { Column } from "../ui/Column";
 
 type AuthFormProps = {
   alternateHref: Href;
@@ -43,13 +44,13 @@ export function AuthForm({
     isSubmitting || email.trim().length === 0 || password.length === 0;
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.card}>
-        <View style={styles.header}>
+    <Column gap={16}>
+      <Card gap={16} padding={20} style={styles.card}>
+        <Column gap={8}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{subtitle}</Text>
-        </View>
-        <View style={styles.fieldGroup}>
+        </Column>
+        <Column gap={8}>
           <Text style={styles.label}>Email</Text>
           <TextInput
             autoCapitalize="none"
@@ -62,8 +63,8 @@ export function AuthForm({
             textContentType="emailAddress"
             value={email}
           />
-        </View>
-        <View style={styles.fieldGroup}>
+        </Column>
+        <Column gap={8}>
           <Text style={styles.label}>Password</Text>
           <TextInput
             autoCapitalize="none"
@@ -76,7 +77,7 @@ export function AuthForm({
             textContentType="password"
             value={password}
           />
-        </View>
+        </Column>
         {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
         {successMessage ? (
           <Text style={styles.success}>{successMessage}</Text>
@@ -94,37 +95,25 @@ export function AuthForm({
             <Text style={styles.primaryActionLabel}>{submitLabel}</Text>
           )}
         </Pressable>
-      </View>
-      <View style={styles.footer}>
+      </Card>
+      <Column align="center" gap={4}>
         <Text style={styles.footerText}>{alternatePrompt}</Text>
         <Link href={alternateHref} style={styles.footerLink}>
           {alternateLabel}
         </Link>
-      </View>
-    </View>
+      </Column>
+    </Column>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: navigationTheme.colors.card,
-    borderColor: navigationTheme.colors.border,
     borderRadius: 24,
-    borderWidth: 1,
-    gap: 16,
-    padding: 20,
   },
   error: {
     color: "#b42318",
     fontSize: 14,
     lineHeight: 20,
-  },
-  fieldGroup: {
-    gap: 8,
-  },
-  footer: {
-    alignItems: "center",
-    gap: 4,
   },
   footerLink: {
     color: navigationTheme.colors.accent,
@@ -134,9 +123,6 @@ const styles = StyleSheet.create({
   footerText: {
     color: navigationTheme.colors.muted,
     fontSize: 15,
-  },
-  header: {
-    gap: 8,
   },
   input: {
     backgroundColor: "#fffaf1",
@@ -185,8 +171,5 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "800",
     letterSpacing: -0.4,
-  },
-  wrapper: {
-    gap: 16,
   },
 });

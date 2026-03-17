@@ -6,6 +6,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { useAuth } from "../../auth/AuthProvider";
 import { ErrorView } from "../../components/ErrorView";
 import { LoadingView } from "../../components/LoadingView";
+import { Row } from "../../ui/Row";
 import { Screen } from "../../ui/Screen";
 import { TodoList, type TodoListItemData } from "../../components/TodoList";
 import { navigationTheme } from "../../navigation/root-stack";
@@ -98,7 +99,7 @@ export default function TodosScreen() {
       <Stack.Screen
         options={{
           headerRight: () => (
-            <View style={styles.headerActions}>
+            <Row gap={6}>
               <Pressable
                 accessibilityLabel="Create a todo"
                 hitSlop={10}
@@ -133,7 +134,7 @@ export default function TodosScreen() {
                   weight="semibold"
                 />
               </Pressable>
-            </View>
+            </Row>
           ),
           title: "Todos",
         }}
@@ -143,10 +144,6 @@ export default function TodosScreen() {
 }
 
 const styles = StyleSheet.create({
-  headerActions: {
-    flexDirection: "row",
-    gap: 6,
-  },
   headerButton: {
     alignItems: "center",
     borderRadius: 999,

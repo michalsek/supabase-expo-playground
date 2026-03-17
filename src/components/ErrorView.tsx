@@ -1,6 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 import { navigationTheme } from "../navigation/root-stack";
+import { Card } from "../ui/Card";
 
 type ErrorViewProps = {
   actionLabel?: string;
@@ -16,7 +17,7 @@ export function ErrorView({
   title,
 }: ErrorViewProps) {
   return (
-    <View style={styles.card}>
+    <Card padding={20} style={styles.card}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.message}>{message}</Text>
       {actionLabel && onAction ? (
@@ -24,7 +25,7 @@ export function ErrorView({
           <Text style={styles.actionLabel}>{actionLabel}</Text>
         </Pressable>
       ) : null}
-    </View>
+    </Card>
   );
 }
 
@@ -46,12 +47,7 @@ const styles = StyleSheet.create({
   },
   card: {
     alignItems: "center",
-    backgroundColor: navigationTheme.colors.card,
-    borderColor: navigationTheme.colors.border,
     borderRadius: 24,
-    borderWidth: 1,
-    gap: 12,
-    padding: 20,
   },
   message: {
     color: "#b42318",

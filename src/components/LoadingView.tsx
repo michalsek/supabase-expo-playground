@@ -1,6 +1,7 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text } from "react-native";
 
 import { navigationTheme } from "../navigation/root-stack";
+import { Card } from "../ui/Card";
 
 type LoadingViewProps = {
   message: string;
@@ -8,22 +9,17 @@ type LoadingViewProps = {
 
 export function LoadingView({ message }: LoadingViewProps) {
   return (
-    <View style={styles.card}>
+    <Card padding={20} style={styles.card}>
       <ActivityIndicator color={navigationTheme.colors.accent} size="large" />
       <Text style={styles.message}>{message}</Text>
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
     alignItems: "center",
-    backgroundColor: navigationTheme.colors.card,
-    borderColor: navigationTheme.colors.border,
     borderRadius: 24,
-    borderWidth: 1,
-    gap: 12,
-    padding: 20,
   },
   message: {
     color: navigationTheme.colors.muted,

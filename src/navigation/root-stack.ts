@@ -58,7 +58,6 @@ export const protectedScreens = {
     title: "Todo details",
   },
   "todo/new": {
-    presentation: "modal",
     title: "New todo",
   },
 } as const;

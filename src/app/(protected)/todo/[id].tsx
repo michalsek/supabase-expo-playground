@@ -1,10 +1,20 @@
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
-import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 import { useAuth } from "../../../auth/AuthProvider";
 import { ErrorView } from "../../../components/ErrorView";
 import { LoadingView } from "../../../components/LoadingView";
+import { Card } from "../../../ui/Card";
+import { Column } from "../../../ui/Column";
+import { Row } from "../../../ui/Row";
 import { Screen } from "../../../ui/Screen";
 import type { Enums, Tables, TablesUpdate } from "../../../database/types";
 import { navigationTheme } from "../../../navigation/root-stack";
@@ -181,8 +191,8 @@ export default function TodoDetailsScreen() {
       ) : null}
 
       {!isLoading && todo ? (
-        <View style={styles.form}>
-          <View style={styles.card}>
+        <Column gap={16}>
+          <Card gap={10} padding={20} style={styles.card}>
             <Text style={styles.label}>Title</Text>
             <TextInput
               onChangeText={setTitle}
@@ -191,9 +201,9 @@ export default function TodoDetailsScreen() {
               style={styles.input}
               value={title}
             />
-          </View>
+          </Card>
 
-          <View style={styles.card}>
+          <Card gap={10} padding={20} style={styles.card}>
             <Text style={styles.label}>Description</Text>
             <TextInput
               multiline
@@ -204,9 +214,9 @@ export default function TodoDetailsScreen() {
               textAlignVertical="top"
               value={description}
             />
-          </View>
+          </Card>
 
-          <View style={styles.card}>
+          <Card gap={10} padding={20} style={styles.card}>
             <Text style={styles.label}>Notes</Text>
             <TextInput
               multiline
@@ -217,9 +227,9 @@ export default function TodoDetailsScreen() {
               textAlignVertical="top"
               value={notes}
             />
-          </View>
+          </Card>
 
-          <View style={styles.card}>
+          <Card gap={10} padding={20} style={styles.card}>
             <Text style={styles.label}>Priority</Text>
             <TextInput
               keyboardType="number-pad"
@@ -230,11 +240,11 @@ export default function TodoDetailsScreen() {
               value={priorityText}
             />
             <Text style={styles.helperText}>Saved as a number between 1 and 5.</Text>
-          </View>
+          </Card>
 
-          <View style={styles.card}>
+          <Card gap={10} padding={20} style={styles.card}>
             <Text style={styles.label}>Status</Text>
-            <View style={styles.segmentRow}>
+            <Row gap={10}>
               {todoStatusOptions.map((option) => {
                 const isActive = option === status;
 
@@ -258,12 +268,12 @@ export default function TodoDetailsScreen() {
                   </Pressable>
                 );
               })}
-            </View>
-          </View>
+            </Row>
+          </Card>
 
           <Pressable
             onPress={() => setArchived((current) => !current)}
-            style={[styles.card, styles.toggleCard]}
+            style={[styles.toggleCard, styles.cardPressable]}
           >
             <View>
               <Text style={styles.label}>Archived</Text>
@@ -304,7 +314,7 @@ export default function TodoDetailsScreen() {
               <Text style={styles.primaryActionLabel}>Save changes</Text>
             )}
           </Pressable>
-        </View>
+        </Column>
       ) : null}
     </Screen>
   );
@@ -312,6 +322,9 @@ export default function TodoDetailsScreen() {
 
 const styles = StyleSheet.create({
   card: {
+    borderRadius: 24,
+  },
+  cardPressable: {
     backgroundColor: navigationTheme.colors.card,
     borderColor: navigationTheme.colors.border,
     borderRadius: 24,
@@ -323,14 +336,6 @@ const styles = StyleSheet.create({
     color: "#b42318",
     fontSize: 14,
     lineHeight: 20,
-  },
-  errorTitle: {
-    color: navigationTheme.colors.text,
-    fontSize: 20,
-    fontWeight: "700",
-  },
-  form: {
-    gap: 16,
   },
   helperText: {
     color: navigationTheme.colors.muted,
@@ -390,10 +395,6 @@ const styles = StyleSheet.create({
   },
   segmentLabelActive: {
     color: "#f7fffd",
-  },
-  segmentRow: {
-    flexDirection: "row",
-    gap: 10,
   },
   successText: {
     color: "#0f766e",

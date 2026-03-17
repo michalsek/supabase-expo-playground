@@ -1,8 +1,10 @@
 import { Link, Redirect } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 import { useAuth } from "../auth/AuthProvider";
 import { Screen } from "../ui/Screen";
+import { Column } from "../ui/Column";
+import { Spacer } from "../ui/Spacer";
 import { navigationTheme } from "../navigation/root-stack";
 import { routes } from "../navigation/routes";
 
@@ -15,11 +17,11 @@ export default function HomeScreen() {
 
   return (
     <Screen edges={["top", "bottom", "left", "right"]} scrollable={false}>
-      <View style={styles.hero}>
+      <Column gap={10}>
         <Text style={styles.heroTitle}>Supabase Auth</Text>
-      </View>
-      <View style={styles.spacer} />
-      <View style={styles.actions}>
+      </Column>
+      <Spacer.Vertical />
+      <Column gap={12}>
         <Link asChild href={routes.signIn}>
           <Pressable style={primaryActionStyle}>
             <Text style={styles.primaryActionLabel}>Sign in</Text>
@@ -30,32 +32,23 @@ export default function HomeScreen() {
             <Text style={styles.secondaryActionLabel}>Sign up</Text>
           </Pressable>
         </Link>
-      </View>
+      </Column>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  hero: {
-    gap: 10,
-  },
   heroTitle: {
     color: navigationTheme.colors.text,
     fontSize: 36,
     fontWeight: "800",
     letterSpacing: -0.8,
   },
-  spacer: {
-    flex: 1,
-  },
   action: {
     alignItems: "center",
     borderRadius: 4,
     paddingHorizontal: 18,
     paddingVertical: 14,
-  },
-  actions: {
-    gap: 12,
   },
   primaryAction: {
     backgroundColor: navigationTheme.colors.accent,

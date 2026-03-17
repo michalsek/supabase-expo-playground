@@ -1,11 +1,13 @@
 import * as Linking from "expo-linking";
 import { Link, Redirect } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 import { useAuth } from "../auth/AuthProvider";
 import { emailConfirmationRedirectUrl } from "../auth/redirect";
 import { Screen } from "../ui/Screen";
+import { Card } from "../ui/Card";
+import { Column } from "../ui/Column";
 import { navigationTheme } from "../navigation/root-stack";
 import { routes } from "../navigation/routes";
 import { supabase } from "../supabase/client";
@@ -144,7 +146,7 @@ export default function ConfirmationScreen() {
 
   return (
     <Screen edges={["top", "bottom", "left", "right"]}>
-      <View style={styles.card}>
+      <Card padding={20} style={styles.card}>
         <Text style={styles.kicker}>Email callback</Text>
         <Text style={styles.title}>
           {status === "processing"
@@ -152,12 +154,12 @@ export default function ConfirmationScreen() {
             : isSuccess
               ? "Email confirmed"
               : isError
-                ? "Confirmation failed"
-                : "Awaiting confirmation"}
+              ? "Confirmation failed"
+              : "Awaiting confirmation"}
         </Text>
         <Text style={styles.description}>{message}</Text>
-      </View>
-      <View style={styles.actions}>
+      </Card>
+      <Column gap={12}>
         {session ? (
           <Link asChild href={routes.todos}>
             <Pressable style={primaryActionStyle}>
@@ -176,22 +178,14 @@ export default function ConfirmationScreen() {
             <Text style={styles.secondaryActionLabel}>Back to home</Text>
           </Pressable>
         </Link>
-      </View>
+      </Column>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  actions: {
-    gap: 12,
-  },
   card: {
-    backgroundColor: navigationTheme.colors.card,
-    borderColor: navigationTheme.colors.border,
     borderRadius: 24,
-    borderWidth: 1,
-    gap: 12,
-    padding: 20,
   },
   description: {
     color: navigationTheme.colors.muted,
