@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@expo/log-box": "^55.0.7",
+    "@supabase/supabase-js": "2.100.0-canary.0",
     "expo": "~55.0.6",
     "expo-constants": "~55.0.7",
     "expo-linking": "~55.0.7",

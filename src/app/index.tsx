@@ -5,6 +5,8 @@ import { Screen } from "../components/Screen";
 import { navigationTheme } from "../navigation/root-stack";
 import { routes } from "../navigation/routes";
 
+import "../supabase/client";
+
 const previews = [
   {
     href: routes.todoDetails("42"),

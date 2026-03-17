@@ -2890,6 +2890,75 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@supabase/auth-js@npm:2.100.0-canary.0":
+  version: 2.100.0-canary.0
+  resolution: "@supabase/auth-js@npm:2.100.0-canary.0"
+  dependencies:
+    tslib: "npm:2.8.1"
+  checksum: 10c0/3bf0023dffd29353a41b3ff48c8ea07e8c64bca83f0fa9d40023e023751b6c3f4726b603f588545bf585093310842baef82bc619cb84e8f1f0830c53a21fe6a5
+  languageName: node
+  linkType: hard
+
+"@supabase/functions-js@npm:2.100.0-canary.0":
+  version: 2.100.0-canary.0
+  resolution: "@supabase/functions-js@npm:2.100.0-canary.0"
+  dependencies:
+    tslib: "npm:2.8.1"
+  checksum: 10c0/5d5a5facf8444eff157be3751d14e1ea35c591277c9b9df6e6989a7c90976261922bc6afa76c056f8e3e564ca5f216d0cb0aa4f2ad524f97e26d6f3c11bf954a
+  languageName: node
+  linkType: hard
+
+"@supabase/phoenix@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@supabase/phoenix@npm:0.4.0"
+  checksum: 10c0/67973ccace7c8ca2ecdc13dc14f9e80f8b957daa56e75642c6265302287e7124ced3aa9df740dd31e6905e51f0f60d271351117a9e946743ad30ec21210a9421
+  languageName: node
+  linkType: hard
+
+"@supabase/postgrest-js@npm:2.100.0-canary.0":
+  version: 2.100.0-canary.0
+  resolution: "@supabase/postgrest-js@npm:2.100.0-canary.0"
+  dependencies:
+    tslib: "npm:2.8.1"
+  checksum: 10c0/1b6341f2fe6df375bc1167920ee735ade76c038f20e44ce89494708e3a9430615e6def2882bc2e8316129fe81d6d8e37a772ce6586c02ebc0e89d34b37b9bbbf
+  languageName: node
+  linkType: hard
+
+"@supabase/realtime-js@npm:2.100.0-canary.0":
+  version: 2.100.0-canary.0
+  resolution: "@supabase/realtime-js@npm:2.100.0-canary.0"
+  dependencies:
+    "@supabase/phoenix": "npm:^0.4.0"
+    "@types/ws": "npm:^8.18.1"
+    tslib: "npm:2.8.1"
+    ws: "npm:^8.18.2"
+  checksum: 10c0/122d47985dcd363d589c00f35c3da0752ce2e65c1aae2d5666c2ab40a61d2a1a22316a6c34aad967729f47f808f731ffde92854fe478e3186182f8b64cfa1167
+  languageName: node
+  linkType: hard
+
+"@supabase/storage-js@npm:2.100.0-canary.0":
+  version: 2.100.0-canary.0
+  resolution: "@supabase/storage-js@npm:2.100.0-canary.0"
+  dependencies:
+    iceberg-js: "npm:^0.8.1"
+    tslib: "npm:2.8.1"
+  checksum: 10c0/d95d6ede69609652530880b9e88f86c48d7334362cc49230e3e2ee718cd8bbb65f8d0d4ad15b0f9a3887c0969d895f0321c43545e07c4a021278025bef45f766
+  languageName: node
+  linkType: hard
+
+"@supabase/supabase-js@npm:2.100.0-canary.0":
+  version: 2.100.0-canary.0
+  resolution: "@supabase/supabase-js@npm:2.100.0-canary.0"
+  dependencies:
+    "@supabase/auth-js": "npm:2.100.0-canary.0"
+    "@supabase/functions-js": "npm:2.100.0-canary.0"
+    "@supabase/postgrest-js": "npm:2.100.0-canary.0"
+    "@supabase/realtime-js": "npm:2.100.0-canary.0"
+    "@supabase/storage-js": "npm:2.100.0-canary.0"
+  checksum: 10c0/c546d274a8718b5d43db528abff12104770e96bc2d5657c0481daa2ad999e637f856aca7978b0388738652d766f5eb87c90ec0e285cbf65820a4d2b5a550dbee
+  languageName: node
+  linkType: hard
+
 "@testing-library/react-native@npm:^13.3.3":
   version: 13.3.3
   resolution: "@testing-library/react-native@npm:13.3.3"
@@ -3105,6 +3174,15 @@ __metadata:
   version: 4.0.5
   resolution: "@types/tough-cookie@npm:4.0.5"
   checksum: 10c0/68c6921721a3dcb40451543db2174a145ef915bc8bcbe7ad4e59194a0238e776e782b896c7a59f4b93ac6acefca9161fccb31d1ce3b3445cb6faa467297fb473
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:^8.18.1":
+  version: 8.18.1
+  resolution: "@types/ws@npm:8.18.1"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/61aff1129143fcc4312f083bc9e9e168aa3026b7dd6e70796276dcfb2c8211c4292603f9c4864fae702f2ed86e4abd4d38aa421831c2fd7f856c931a481afbab
   languageName: node
   linkType: hard
 
@@ -5373,6 +5451,13 @@ __metadata:
   version: 1.1.0
   resolution: "hyphenate-style-name@npm:1.1.0"
   checksum: 10c0/bfe88deac2414a41a0d08811e277c8c098f23993d6a1eb17f14a0f11b54c4d42865a63d3cfe1914668eefb9a188e2de58f38b55a179a238fd1fef606893e194f
+  languageName: node
+  linkType: hard
+
+"iceberg-js@npm:^0.8.1":
+  version: 0.8.1
+  resolution: "iceberg-js@npm:0.8.1"
+  checksum: 10c0/e504da64cc26e8ad7c5344353a7203c671a740c14eb6086f20505f5e9739cab774493e616032530c962df97f2a855115cc2e89a47dd81581df5917b21a69ec48
   languageName: node
   linkType: hard
 
@@ -8851,6 +8936,7 @@ __metadata:
     "@babel/traverse": "npm:^7.29.0"
     "@babel/types": "npm:^7.29.0"
     "@expo/log-box": "npm:^55.0.7"
+    "@supabase/supabase-js": "npm:2.100.0-canary.0"
     "@testing-library/react-native": "npm:^13.3.3"
     "@types/babel__core": "npm:^7"
     "@types/babel__generator": "npm:^7"
@@ -9096,7 +9182,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.1.0":
+"tslib@npm:2.8.1, tslib@npm:^2.0.0, tslib@npm:^2.1.0":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
@@ -9526,7 +9612,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.11.0, ws@npm:^8.12.1":
+"ws@npm:^8.11.0, ws@npm:^8.12.1, ws@npm:^8.18.2":
   version: 8.19.0
   resolution: "ws@npm:8.19.0"
   peerDependencies:

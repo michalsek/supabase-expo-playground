@@ -44,3 +44,5 @@ coverage/
 /android
 
 .yarn/install-state.gz
+
+.env
